@@ -1,15 +1,14 @@
-import java.util.*;
+public boolean shouldPrintMessage(int timestamp, String message) {
+        if (!msgMap.containsKey(message)) {
+            msgMap.put(message, timestamp);
+            return true;
+        }
 
-public class Main {
-    public static void main(String[] args) {
-        Logger logger = new Logger();
+        Integer oldTimestamp = msgMap.get(message);
+        if (timestamp - oldTimestamp >= 10) {
+            msgMap.put(message, timestamp);
+            return true;
+        } else {
+            return false;
+        }
     }
-}
-
-class Logger {
-    private Map<String, Integer> msgMap;
-
-    public Logger() {
-        msgMap = new HashMap<>();
-    }
-}

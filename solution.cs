@@ -1,12 +1,17 @@
-using System;
-using System.Collections.Generic;
-
-public class RateLimiter
-{
-    private Dictionary<string, DateTime> logs = new Dictionary<string, DateTime>();
-    private TimeSpan timeWindow;
-
-    public RateLimiter(TimeSpan timeWindow)
+public bool ShouldLog(string message)
     {
-        this.timeWindow = timeWindow;
+        DateTime now = DateTime.Now;
+
+        if (logs.ContainsKey(message))
+        {
+            DateTime lastLogTime = logs[message];
+
+            if (now - lastLogTime <= timeWindow)
+            {
+                return false;
+            }
+        }
+
+        logs[message] = now;
+        return true;
     }
